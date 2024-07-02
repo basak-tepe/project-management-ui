@@ -1,0 +1,1 @@
+const repositories = {template: '<div>Repositories</div>'}

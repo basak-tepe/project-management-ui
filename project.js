@@ -1,0 +1,1 @@
+const projects = {template: "<div>Projects</div>"}
