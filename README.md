@@ -1,10 +1,10 @@
 # project-management-ui
 
 
-##Overview
+## Overview
 This repository contains the frontend for the Project Management System, built with Vue.js. It provides a user interface for managing projects, repositories, and trackers.
 
-##Setup Instructions
+## Setup Instructions
 
 1. **Clone the repository:**
 
