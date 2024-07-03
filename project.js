@@ -7,7 +7,7 @@ const project = {
         data-bs-toggle="modal" 
         data-bs-target="#exampleModal" 
         @click="addClick()">
-        Add Project 
+        Add Project
     </button>
 
     <!-- Table to display projects -->
@@ -19,8 +19,8 @@ const project = {
                 <th>Project Slug</th>
                 <th>Project Description</th>
                 <th>Project Language</th>
-                <th>Project Repository</th>
-                <th>Project Tracker</th>
+                <th>Project Repositories</th>
+                <th>Project Trackers</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -88,14 +88,14 @@ const project = {
                     </div>
                     <div class="mb-3">
                         <label for="projectRepositories" class="form-label">Project Repositories</label>
-                        <select multiple class="form-select" id="projectRepositories" v-model="selectedRepositories">
-                            <option v-for="repo in repositories" :value="repo.repositoryID">{{ repo.title }}</option>
+                        <select class="form-select" id="projectRepositories" multiple v-model="selectedRepositories">
+                            <option v-for="repo in repositories" :key="repo.repositoryID" :value="repo.repositoryID">{{ repo.title }}</option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="projectTrackers" class="form-label">Project Trackers</label>
-                        <select multiple class="form-select" id="projectTrackers" v-model="selectedTrackers">
-                            <option v-for="tracker in trackers" :value="tracker.TrackerID">{{ tracker.title }}</option>
+                        <select class="form-select" id="projectTrackers" multiple v-model="selectedTrackers">
+                            <option v-for="tracker in trackers" :key="tracker.TrackerID" :value="tracker.TrackerID">{{ tracker.title }}</option>
                         </select>
                     </div>
                     <button type="button" class="btn btn-primary" @click="projectId === 0 ? createProject() : updateProject()">

@@ -39,7 +39,7 @@ const tracker = {
                         Edit
                     </button>
                     <button type="button" class="btn btn-light"
-                        @click="deleteClick(tracker.TrackerID)">
+                        @click="deleteClick(tracker.trackerID)">
                         Delete
                     </button>
                 </td>
@@ -66,7 +66,11 @@ const tracker = {
                     </div>
                     <div class="mb-3">
                         <label for="trackerType" class="form-label">Type</label>
-                        <input type="text" class="form-control" id="trackerType" v-model="trackerType">
+                        <select class="form-control" id="trackerType" v-model="trackerType">
+                            <option value="GitHub">GitHub</option>
+                            <option value="GitLab">GitLab</option>
+                            <option value="Jira">Jira</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="trackerEmail" class="form-label">Email</label>
@@ -91,7 +95,7 @@ const tracker = {
             modalTitle: '',
             trackerTitle: '',
             trackerURL: '',
-            trackerType: '',
+            trackerType: 'GitHub', // Default value
             trackerEmail: '',
             trackerToken: '',
             trackerId: 0
@@ -99,7 +103,7 @@ const tracker = {
     },
     methods: {
         getTrackers() {
-            axios.get(variables.API_URL + 'tracker')
+            axios.get(variables.API_URL + 'tracker/')
                 .then(response => {
                     this.trackers = response.data;
                 })
@@ -113,7 +117,7 @@ const tracker = {
         },
         editClick(tracker) {
             this.modalTitle = 'Edit Tracker';
-            this.trackerId = tracker.TrackerID;
+            this.trackerId = tracker.trackerID;
             this.trackerTitle = tracker.title;
             this.trackerURL = tracker.URL;
             this.trackerType = tracker.type;
@@ -121,7 +125,6 @@ const tracker = {
             this.trackerToken = tracker.token;
         },
         createTracker() {
-            // Prepare data to send to the backend
             const data = {
                 title: this.trackerTitle,
                 URL: this.trackerURL,
@@ -129,11 +132,9 @@ const tracker = {
                 email: this.trackerEmail,
                 token: this.trackerToken
             };
-
-            // Send POST request to create new tracker
+        
             axios.post(variables.API_URL + 'tracker/', data)
                 .then(response => {
-                    // Handle success, refresh trackers list
                     this.getTrackers();
                     this.resetForm();
                     $('#exampleModal').modal('hide'); // Close modal
@@ -141,9 +142,8 @@ const tracker = {
                 .catch(error => {
                     console.error("Error creating tracker:", error);
                 });
-        },
+        },        
         updateTracker() {
-            // Prepare data to send to the backend
             const data = {
                 title: this.trackerTitle,
                 URL: this.trackerURL,
@@ -152,10 +152,8 @@ const tracker = {
                 token: this.trackerToken
             };
 
-            // Send PUT request to update tracker
             axios.put(variables.API_URL + 'tracker/' + this.trackerId + '/', data)
                 .then(response => {
-                    // Handle success, refresh trackers list
                     this.getTrackers();
                     this.resetForm();
                     $('#exampleModal').modal('hide'); // Close modal
@@ -165,21 +163,20 @@ const tracker = {
                 });
         },
         deleteClick(trackerId) {
-            // Send DELETE request to delete tracker
+            console.log('Deleting tracker with ID:', trackerId);
             axios.delete(variables.API_URL + 'tracker/' + trackerId + '/')
                 .then(response => {
-                    // Handle success, refresh trackers list
                     this.getTrackers();
                 })
                 .catch(error => {
                     console.error("Error deleting tracker:", error);
                 });
         },
+
         resetForm() {
-            // Reset form fields
             this.trackerTitle = '';
             this.trackerURL = '';
-            this.trackerType = '';
+            this.trackerType = 'GitHub';
             this.trackerEmail = '';
             this.trackerToken = '';
             this.trackerId = 0;

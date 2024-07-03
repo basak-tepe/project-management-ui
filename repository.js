@@ -66,7 +66,11 @@ const repository = {
                     </div>
                     <div class="mb-3">
                         <label for="repoType" class="form-label">Type</label>
-                        <input type="text" class="form-control" id="repoType" v-model="repoType">
+                        <select class="form-control" id="repoType" v-model="repoType">
+                            <option value="GitHub">GitHub</option>
+                            <option value="GitLab">GitLab</option>
+                            <option value="Bitbucket">Bitbucket</option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="repoEmail" class="form-label">Email</label>
@@ -91,7 +95,7 @@ const repository = {
             modalTitle: '',
             repoTitle: '',
             repoURL: '',
-            repoType: '',
+            repoType: 'GitHub', // Default value
             repoEmail: '',
             repoToken: '',
             repoId: 0
@@ -121,7 +125,6 @@ const repository = {
             this.repoToken = repo.token;
         },
         createRepository() {
-            // Prepare data to send to the backend
             const data = {
                 title: this.repoTitle,
                 URL: this.repoURL,
@@ -129,11 +132,9 @@ const repository = {
                 email: this.repoEmail,
                 token: this.repoToken
             };
-
-            // Send POST request to create new repository
+        
             axios.post(variables.API_URL + 'repository/', data)
                 .then(response => {
-                    // Handle success, refresh repositories list
                     this.getRepositories();
                     this.resetForm();
                     $('#exampleModal').modal('hide'); // Close modal
@@ -141,7 +142,7 @@ const repository = {
                 .catch(error => {
                     console.error("Error creating repository:", error);
                 });
-        },
+        },        
         updateRepository() {
             // Prepare data to send to the backend
             const data = {
@@ -179,7 +180,7 @@ const repository = {
             // Reset form fields
             this.repoTitle = '';
             this.repoURL = '';
-            this.repoType = '';
+            this.repoType = 'GitHub'; // Reset to default
             this.repoEmail = '';
             this.repoToken = '';
             this.repoId = 0;
