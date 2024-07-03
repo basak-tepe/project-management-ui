@@ -1,6 +1,16 @@
 const project = {
     template: `
 <div>
+    <!-- Button to add new project -->
+    <button 
+        type="button" class="btn btn-primary m-2 float-end"
+        data-bs-toggle="modal" 
+        data-bs-target="#exampleModal" 
+        @click="addClick()">
+        Add Project 
+    </button>
+
+    <!-- Table to display projects -->
     <table class="table table-striped">
         <thead>
             <tr>
@@ -11,43 +21,105 @@ const project = {
                 <th>Project Language</th>
                 <th>Project Repository</th>
                 <th>Project Tracker</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr v-for="project in projects" :key="project.id">
-                <td>{{ project.id }}</td>
+            <tr v-for="project in projects" :key="project.projectID">
+                <td>{{ project.projectID }}</td>
                 <td>{{ project.name }}</td>
                 <td>{{ project.slug }}</td>
                 <td>{{ project.description }}</td>
                 <td>{{ project.language }}</td>
-                <td>{{ project.repository }}</td>
-                <td>{{ project.tracker }}</td>
                 <td>
-                    <button type="button" class="btn btn-light mr-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                        </svg>
-                    </button>
+                    <ul>
+                        <li v-for="repo in project.repositories" :key="repo.repositoryID">
+                            <a :href="repo.URL" target="_blank">{{ repo.title }}</a>
+                        </li>
+                    </ul>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-light mr-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
-                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
-                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                        </svg>
+                    <ul>
+                        <li v-for="tracker in project.trackers" :key="tracker.TrackerID">
+                            <a :href="tracker.URL" target="_blank">{{ tracker.title }}</a>
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-light mr-1"
+                        data-bs-toggle="modal" 
+                        data-bs-target="#exampleModal" 
+                        @click="editClick(project)">
+                        Edit
+                    </button>
+                    <button type="button" class="btn btn-light"
+                        @click="deleteClick(project.projectID)">
+                        Delete
                     </button>
                 </td>
             </tr>
         </tbody>
     </table>
 
-    <div class="modal fade" id=exampleModal tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Modal for adding/editing projects -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ modalTitle }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="projectName" class="form-label">Project Name</label>
+                        <input type="text" class="form-control" id="projectName" v-model="projectName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="projectSlug" class="form-label">Project Slug</label>
+                        <input type="text" class="form-control" id="projectSlug" v-model="projectSlug">
+                    </div>
+                    <div class="mb-3">
+                        <label for="projectDescription" class="form-label">Project Description</label>
+                        <textarea class="form-control" id="projectDescription" v-model="projectDescription"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="projectLanguage" class="form-label">Project Language</label>
+                        <input type="text" class="form-control" id="projectLanguage" v-model="projectLanguage">
+                    </div>
+                    <div class="mb-3">
+                        <label for="projectRepositories" class="form-label">Project Repositories</label>
+                        <select multiple class="form-select" id="projectRepositories" v-model="selectedRepositories">
+                            <option v-for="repo in repositories" :value="repo.repositoryID">{{ repo.title }}</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="projectTrackers" class="form-label">Project Trackers</label>
+                        <select multiple class="form-select" id="projectTrackers" v-model="selectedTrackers">
+                            <option v-for="tracker in trackers" :value="tracker.TrackerID">{{ tracker.title }}</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary" @click="projectId === 0 ? createProject() : updateProject()">
+                        {{ projectId === 0 ? 'Create' : 'Update' }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
     `,
     data() {
         return {
-            projects: []
+            projects: [],
+            repositories: [],
+            trackers: [],
+            modalTitle: '',
+            projectName: '',
+            projectSlug: '',
+            projectDescription: '',
+            projectLanguage: '',
+            selectedRepositories: [],
+            selectedTrackers: [],
+            projectId: 0
         };
     },
     methods: {
@@ -59,9 +131,110 @@ const project = {
                 .catch(error => {
                     console.error("There was an error fetching the projects:", error);
                 });
+        },
+        getRepositories() {
+            axios.get(variables.API_URL + 'repository')
+                .then(response => {
+                    this.repositories = response.data;
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the repositories:", error);
+                });
+        },
+        getTrackers() {
+            axios.get(variables.API_URL + 'tracker')
+                .then(response => {
+                    this.trackers = response.data;
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the trackers:", error);
+                });
+        },
+        addClick() {
+            this.modalTitle = 'Add Project';
+            this.resetForm();
+        },
+        editClick(project) {
+            this.modalTitle = 'Edit Project';
+            this.projectId = project.projectID;
+            this.projectName = project.name;
+            this.projectSlug = project.slug;
+            this.projectDescription = project.description;
+            this.projectLanguage = project.language;
+            this.selectedRepositories = project.repositories.map(repo => repo.repositoryID);
+            this.selectedTrackers = project.trackers.map(tracker => tracker.TrackerID);
+        },
+        createProject() {
+            // Prepare data to send to the backend
+            const data = {
+                name: this.projectName,
+                slug: this.projectSlug,
+                description: this.projectDescription,
+                language: this.projectLanguage,
+                repositories: this.selectedRepositories,
+                trackers: this.selectedTrackers
+            };
+
+            // Send POST request to create new project
+            axios.post(variables.API_URL + 'project/', data)
+                .then(response => {
+                    // Handle success, refresh projects list
+                    this.getProjects();
+                    this.resetForm();
+                    $('#exampleModal').modal('hide'); // Close modal
+                })
+                .catch(error => {
+                    console.error("Error creating project:", error);
+                });
+        },
+        updateProject() {
+            // Prepare data to send to the backend
+            const data = {
+                name: this.projectName,
+                slug: this.projectSlug,
+                description: this.projectDescription,
+                language: this.projectLanguage,
+                repositories: this.selectedRepositories,
+                trackers: this.selectedTrackers
+            };
+
+            // Send PUT request to update project
+            axios.put(variables.API_URL + 'project/' + this.projectId + '/', data)
+                .then(response => {
+                    // Handle success, refresh projects list
+                    this.getProjects();
+                    this.resetForm();
+                    $('#exampleModal').modal('hide'); // Close modal
+                })
+                .catch(error => {
+                    console.error("Error updating project:", error);
+                });
+        },
+        deleteClick(projectId) {
+            // Send DELETE request to delete project
+            axios.delete(variables.API_URL + 'project/' + projectId + '/')
+                .then(response => {
+                    // Handle success, refresh projects list
+                    this.getProjects();
+                })
+                .catch(error => {
+                    console.error("Error deleting project:", error);
+                });
+        },
+        resetForm() {
+            // Reset form fields and selected values
+            this.projectName = '';
+            this.projectSlug = '';
+            this.projectDescription = '';
+            this.projectLanguage = '';
+            this.selectedRepositories = [];
+            this.selectedTrackers = [];
+            this.projectId = 0;
         }
     },
     mounted() {
         this.getProjects();
+        this.getRepositories();
+        this.getTrackers();
     }
 };
