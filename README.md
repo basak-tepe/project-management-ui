@@ -35,7 +35,7 @@ This repository contains the frontend for the Project Management System, built w
 ## Project Screenshots
 
 ### Projects
-<img width="1422" alt="image" src="https://github.com/basak-tepe/project-management-ui/assets/76913595/8fd3ad16-be64-4ed4-9d4d-73930902cc43">
+<img width="1435" alt="image" src="https://github.com/basak-tepe/project-management-ui/assets/76913595/430ff064-e404-4e2e-9e83-b557560206bc">
 <img width="1428" alt="image" src="https://github.com/basak-tepe/project-management-ui/assets/76913595/e379fa4e-2f67-44f1-8df8-51f1fa077fcd">
 
 ### Repositories
