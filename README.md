@@ -14,9 +14,10 @@ This repository contains the frontend for the Project Management System, built w
    ```
 
 3. **Install dependencies**
-
+   ```bash
    npm install
-
+   ```
+   
 4. **Configure endpoint**
 
    Go to variables.js and set the API_URL to your backend URL.
