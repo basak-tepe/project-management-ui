@@ -1,1 +1,1 @@
-const trackers = {template: '<div>Trackers</div>'}
+const tracker = {template: '<div>Trackers</div>'};

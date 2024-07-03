@@ -1,12 +1,12 @@
 const routes = [
     {path: '/home', component: home},
-    {path: '/projects', component: projects},
-    {path: '/repositories', component: repositories},
-    {path: '/trackers', component: trackers},
+    {path: '/projects', component: project},
+    {path: '/repositories', component: repository},
+    {path: '/trackers', component: tracker},
 ]
 
-const router = new VueRouter({routes})
+const router = new VueRouter({routes});
 
 const app = new Vue({
     router
-}).$mount('#app')
+}).$mount('#app');

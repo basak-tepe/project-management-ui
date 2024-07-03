@@ -1,1 +1,1 @@
-const repositories = {template: '<div>Repositories</div>'}
+const repository = {template: '<div>Repositories</div>'};

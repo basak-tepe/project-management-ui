@@ -1,1 +1,1 @@
-const home = {template: '<div>Home</div>'}
+const home = { template: '<div>Home</div>' };
