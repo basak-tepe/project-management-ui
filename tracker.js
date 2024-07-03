@@ -24,8 +24,8 @@ const tracker = {
             </tr>
         </thead>
         <tbody>
-            <tr v-for="tracker in trackers" :key="tracker.TrackerID">
-                <td>{{ tracker.TrackerID }}</td>
+            <tr v-for="tracker in trackers" :key="tracker.trackerID">
+                <td>{{ tracker.trackerID }}</td>
                 <td>{{ tracker.title }}</td>
                 <td><a :href="tracker.URL" target="_blank">{{ tracker.URL }}</a></td>
                 <td>{{ tracker.type }}</td>

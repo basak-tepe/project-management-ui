@@ -38,9 +38,10 @@ const project = {
                         </li>
                     </ul>
                 </td>
+
                 <td>
                     <ul>
-                        <li v-for="tracker in project.trackers" :key="tracker.TrackerID">
+                        <li v-for="tracker in project.trackers" :key="tracker.trackerID">
                             <a :href="tracker.URL" target="_blank">{{ tracker.title }}</a>
                         </li>
                     </ul>
@@ -95,7 +96,7 @@ const project = {
                     <div class="mb-3">
                         <label for="projectTrackers" class="form-label">Project Trackers</label>
                         <select class="form-select" id="projectTrackers" multiple v-model="selectedTrackers">
-                            <option v-for="tracker in trackers" :key="tracker.TrackerID" :value="tracker.TrackerID">{{ tracker.title }}</option>
+                            <option v-for="tracker in trackers" :key="tracker.trackerID" :value="tracker.trackerID">{{ tracker.title }}</option>
                         </select>
                     </div>
                     <button type="button" class="btn btn-primary" @click="projectId === 0 ? createProject() : updateProject()">
@@ -141,6 +142,7 @@ const project = {
                     console.error("There was an error fetching the repositories:", error);
                 });
         },
+        
         getTrackers() {
             axios.get(variables.API_URL + 'tracker')
                 .then(response => {
@@ -149,7 +151,7 @@ const project = {
                 .catch(error => {
                     console.error("There was an error fetching the trackers:", error);
                 });
-        },
+        },        
         addClick() {
             this.modalTitle = 'Add Project';
             this.resetForm();
@@ -162,7 +164,7 @@ const project = {
             this.projectDescription = project.description;
             this.projectLanguage = project.language;
             this.selectedRepositories = project.repositories.map(repo => repo.repositoryID);
-            this.selectedTrackers = project.trackers.map(tracker => tracker.TrackerID);
+            this.selectedTrackers = project.trackers.map(tracker => tracker.trackerID);
         },
         createProject() {
             // Prepare data to send to the backend
