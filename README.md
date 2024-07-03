@@ -8,22 +8,24 @@ This repository contains the frontend for the Project Management System, built w
 
 1. **Clone the repository:**
 
+   ```bash
    git clone https://github.com/basak-tepe/project-management-system.git
    cd project-management-system
+   ```
 
-2. **Install dependencies**
+3. **Install dependencies**
 
    npm install
 
-3. **Configure endpoint**
+4. **Configure endpoint**
 
    Go to variables.js and set the API_URL to your backend URL.
 
-4. **"Live Server" extension**
+5. **"Live Server" extension**
 
    Add Live Server extension to VSCode.
    Open index.html and click on "Go Live" in the bottom right corner.
 
-5. **Go Live**
+6. **Go Live**
 
    Open your web browser and go to the port specified by Live Server to view the project.
